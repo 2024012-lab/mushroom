@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Wheelchair Finder</title>
+    <title>Bio Vision: 야생 버섯 탐지기</title>
 
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
 
     <style>
-        /* 모바일 전체 화면 및 터치 방지 스타일 */
+        /* 🌿 깊은 숲속 분위기의 신비로운 그라데이션 배경 */
         body {
-            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            font-family: 'Pretendard', system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
-            background: #0f2027;
-            color: #f8fafc;
+            background: radial-gradient(circle at center, #0B2516 0%, #050C08 100%);
+            color: #f1f5f9;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,54 +25,76 @@
             user-select: none;
         }
 
+        /* 글래스모피즘이 적용된 헤더 */
         header {
             width: 100%;
-            padding: 15px 0 5px 0;
+            padding: 20px 0 10px 0;
             text-align: center;
-            background: linear-gradient(to bottom, rgba(15,32,39,1), rgba(15,32,39,0.8));
+            background: linear-gradient(to bottom, rgba(11, 37, 22, 0.8), rgba(5, 12, 8, 0));
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10;
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            font-weight: 850;
             margin: 0;
-            color: #00f2fe;
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+            background: linear-gradient(135deg, #a7f3d0 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+            letter-spacing: -0.03em;
         }
 
         p {
             font-size: 0.8rem;
-            color: #e2e8f0;
-            margin: 3px 0 0 0;
-            letter-spacing: 0.5px;
+            color: #94a3b8;
+            margin: 5px 0 0 0;
+            letter-spacing: 1px;
+            font-weight: 500;
         }
 
-        /* 상태 표시창: 모바일 상단 플로팅 스타일 */
+        /* 🍀 자연 스캐너 컨셉의 상태 표시창 */
         #status {
-            font-weight: bold;
-            background: rgba(16, 185, 129, 0.25);
-            color: #10b981;
-            padding: 6px 16px;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            padding: 6px 18px;
             border-radius: 30px;
             font-size: 12px;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            margin: 8px auto;
-            backdrop-filter: blur(8px);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            margin: 12px auto;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: inline-block;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
         }
 
-        /* 📱 모바일 카메라 풀스크린/카드 컨테이너 설정 */
+        /* 📱 야외 탐사용 생태계 카메라 컨테이너 */
         #canvas-container {
             position: relative;
-            width: 92%;
-            max-width: 450px;
-            aspect-ratio: 3 / 4; /* 모바일 세로 화면에 최적화된 3:4 비율 */
-            background: #071119;
-            border-radius: 20px;
+            width: 90%;
+            max-width: 440px;
+            aspect-ratio: 3 / 4; 
+            background: #020617;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            border: 3px solid #ff7e5f;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
+                        0 0 25px rgba(16, 185, 129, 0.15);
+            border: 2px solid rgba(52, 211, 153, 0.2);
+        }
+
+        /* 렌즈 타겟 십자선 데코레이션 */
+        #canvas-container::after {
+            content: '';
+            position: absolute;
+            top: 10%; left: 10%; right: 10%; bottom: 10%;
+            border: 1px dashed rgba(52, 211, 153, 0.15);
+            border-radius: 16px;
+            pointer-events: none;
+            z-index: 5;
         }
 
         video { display: none; }
@@ -83,16 +105,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 카메라 왜곡 방지 및 채우기 */
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>👩‍🦼 Smart Finder</h1>
-        <p>실시간 휠체어 & 사람 탐지 시스템</p>
-        <div id="status">⏳ 추론 엔진 로드 중...</div>
+        <h1>🍄 ECO VISION SCANNER</h1>
+        <p>실시간 야생 버섯 및 자연 생태 탐지 시스템</p>
+        <div id="status">🌱 바이오 추론 엔진 준비 중...</div>
     </header>
 
     <div id="canvas-container">
@@ -107,16 +129,14 @@ const ctx = canvas.getContext('2d');
 const statusDiv = document.getElementById('status');
 
 let session;
-// 🎯 Colab 학습 규격(imgsz=416)과 100% 일치화
 const modelWidth = 416;
 const modelHeight = 416;
 
-// 🏷️ data.yaml 클래스 인덱스 순서 고정
+// 🏷️ 사용자의 data.yaml 매핑 클래스
 const labels = ['CoW', 'chanterelle'];
 
 async function startApp() {
     try {
-        // 모바일 후면 카메라(environment) 가로세로 비율 최적화 요청
         const stream = await navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: { ideal: "environment" },
@@ -128,54 +148,47 @@ async function startApp() {
         video.srcObject = stream;
         await video.play();
 
-        statusDiv.innerText = "⚡ 인공지능 엔진 최적화 중...";
-        statusDiv.style.background = "rgba(0, 242, 254, 0.15)";
-        statusDiv.style.color = "#00f2fe";
-        statusDiv.style.borderColor = "rgba(0, 242, 254, 0.4)";
+        statusDiv.innerText = "⚡ 환경 분석 시스템 가속 중...";
+        statusDiv.style.background = "rgba(52, 211, 153, 0.2)";
+        statusDiv.style.color = "#a7f3d0";
+        statusDiv.style.borderColor = "rgba(52, 211, 153, 0.5)";
 
-        // Vercel 환경에서 상대 경로로 ONNX 모델 로드 (WASM 백엔드 지정)
+        // ONNX 모델 파일 로드 (WASM 백엔드)
         session = await ort.InferenceSession.create('./best.onnx', { executionProviders: ['wasm'] });
 
-        statusDiv.innerText = "📱 탐지 가동 중 (후면 카메라)";
-        statusDiv.style.background = "rgba(255, 126, 95, 0.2)";
-        statusDiv.style.color = "#ff7e5f";
-        statusDiv.style.borderColor = "rgba(255, 126, 95, 0.5)";
+        statusDiv.innerText = "🔍 야외 생태 스캔 가동 중";
+        statusDiv.style.background = "rgba(16, 185, 129, 0.25)";
+        statusDiv.style.color = "#34d399";
+        statusDiv.style.borderColor = "#10b981";
 
-        // 메인 캔버스 크기를 모바일 카메라 실제 해상도로 동기화
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
         requestAnimationFrame(processFrame);
     } catch (err) {
-        statusDiv.innerText = "❌ 에러: 카메라 권한 부족 또는 best.onnx 없음";
+        statusDiv.innerText = "❌ 필드 에러: 카메라 권한을 확인하거나 best.onnx를 배치하세요.";
         statusDiv.style.background = "rgba(239, 68, 68, 0.2)";
-        statusDiv.style.color = "#ef4444";
+        statusDiv.style.color = "#f87171";
+        statusDiv.style.borderColor = "#ef4444";
         console.error(err);
     }
 }
 
 async function processFrame() {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        // 1. 캔버스에 실시간 모바일 카메라 화면 드로잉
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // 2. 이미지를 416x416 텐서 데이터로 전처리
         const inputTensor = preprocess(video, modelWidth, modelHeight);
 
         if (inputTensor) {
             try {
-                // 3. ONNX 인프라 추론 실행
                 const outputs = await session.run({ images: inputTensor });
-                const output = outputs[Object.keys(outputs)[0]]; // 첫 번째 출력 레이어 추출
-
-                // 4. 추출된 데이터를 바탕으로 화면에 바운딩 박스 렌더링
+                const output = outputs[Object.keys(outputs)[0]];
                 postprocess(output.data, output.dims);
             } catch (e) {
                 console.error("추론 오류:", e);
             }
         }
     }
-    // 프레임 연속 재생 루프 호출
     requestAnimationFrame(processFrame);
 }
 
@@ -185,7 +198,6 @@ function preprocess(img, width, height) {
     tempCanvas.height = height;
     const tempCtx = tempCanvas.getContext('2d');
 
-    // 모바일 왜곡 최소화를 위해 416x416 정방형 강제 스트레칭 압축 리사이징
     tempCtx.drawImage(img, 0, 0, width, height);
 
     const imgData = tempCtx.getImageData(0, 0, width, height);
@@ -195,7 +207,6 @@ function preprocess(img, width, height) {
     const g = new Float32Array(width * height);
     const b = new Float32Array(width * height);
 
-    // RGB 채널 분리 및 0~1 정규화(Normalize) 처리
     for (let i = 0; i < data.length / 4; i++) {
         r[i] = data[i * 4] / 255.0;
         g[i] = data[i * 4 + 1] / 255.0;
@@ -211,12 +222,11 @@ function preprocess(img, width, height) {
 }
 
 function postprocess(data, dims) {
-    const numAttributes = dims[1]; // 6 (cx, cy, w, h, person_score, wheelchair_score)
-    const numBoxes = dims[2];      // 3549 (imgsz=416 규격 고정 박스 수)
+    const numAttributes = dims[1]; 
+    const numBoxes = dims[2];      
 
     let candidates = [];
 
-    // 1단계: 임계값 기준을 넘는 모든 탐지 후보군 수집
     for (let i = 0; i < numBoxes; i++) {
         let maxScore = 0;
         let classId = -1;
@@ -229,7 +239,6 @@ function postprocess(data, dims) {
             }
         }
 
-        // 모바일 야외 인식을 감안해 스코어 기준을 0.40(40%)으로 최적 설정
         if (maxScore > 0.40) {
             const cx = data[0 * numBoxes + i] / modelWidth * canvas.width;
             const cy = data[1 * numBoxes + i] / modelHeight * canvas.height;
@@ -243,7 +252,7 @@ function postprocess(data, dims) {
         }
     }
 
-    // 2단계: 모바일 화면 유연성을 위한 간이 NMS (IoU 중복 박스 제거)
+    // NMS 프로세스
     candidates.sort((a, b) => b.score - a.score);
     let selectedObjects = [];
 
@@ -251,11 +260,9 @@ function postprocess(data, dims) {
         let box = candidates.shift();
         selectedObjects.push(box);
 
-        // 겹치는 박스가 많으면 제거 (동일 타겟 중복 그리기 방지)
         candidates = candidates.filter(item => {
             if (item.classId !== box.classId) return true;
 
-            // 단순 교집합 연산 영역 계산 (Intersection over Union 맛보기 기법)
             const interX1 = Math.max(box.x, item.x);
             const interY1 = Math.max(box.y, item.y);
             const interX2 = Math.min(box.x + box.w, item.x + item.w);
@@ -266,34 +273,44 @@ function postprocess(data, dims) {
                 const boxArea = box.w * box.h;
                 const itemArea = item.w * item.h;
                 const iou = interArea / (boxArea + itemArea - interArea);
-                return iou < 0.5; // 50% 이상 겹치면 중복으로 판단하고 버림
+                return iou < 0.45;
             }
             return true;
         });
     }
 
-    // 3단계: 화면 최종 렌더링
+    // 🎨 자연 친화적 타겟 렌더링
     selectedObjects.forEach(obj => {
-        // 휠체어(1)는 눈에 잘 띄는 다홍색(#ff4757), 사람(0)은 시안 블루(#00f2fe)
-        const themeColor = obj.classId === 1 ? "#ff4757" : "#00f2fe";
+        // chanterelle(꾀꼬리버섯, 인덱스1)은 탐스러운 골드옐로우(#ffa502)
+        // CoW(생물, 인덱스0)는 싱그러운 라임그린(#2ed573)
+        const themeColor = obj.classId === 1 ? "#ffa502" : "#2ed573";
 
+        // 박스 렌더링에 글로우 효과 약간 부여
         ctx.strokeStyle = themeColor;
         ctx.lineWidth = 3;
+        ctx.shadowColor = themeColor;
+        ctx.shadowBlur = 6;
         ctx.strokeRect(obj.x, obj.y, obj.w, obj.h);
+        ctx.shadowBlur = 0; // 초기화
 
-        // 상단 라벨 텍스트 처리
+        // 정보 라벨 디자인
         ctx.fillStyle = themeColor;
-        const labelName = labels[obj.classId];
-        const text = `${labelName} ${Math.round(obj.score * 100)}%`;
+        const labelName = labels[obj.classId].toUpperCase();
+        const text = `🌿 ${labelName} ${Math.round(obj.score * 100)}%`;
 
-        ctx.font = "bold 12px sans-serif";
+        ctx.font = "bold 11px monospace";
         const textWidth = ctx.measureText(text).width;
 
-        const labelY = obj.y - 20 < 0 ? 0 : obj.y - 20;
-        ctx.fillRect(obj.x - 1, labelY, textWidth + 10, 20);
+        const labelY = obj.y - 22 < 0 ? 0 : obj.y - 22;
+        
+        // 부드럽게 라운딩된 라벨 탑 바
+        ctx.beginPath();
+        ctx.roundRect(obj.x - 1, labelY, textWidth + 12, 22, [4, 4, 0, 0]);
+        ctx.fill();
 
-        ctx.fillStyle = "#0f2027";
-        ctx.fillText(text, obj.x + 4, labelY + 14);
+        // 라벨 글자 출력 (배경과 대비되는 딥다크 그린 컬러)
+        ctx.fillStyle = "#050C08";
+        ctx.fillText(text, obj.x + 5, labelY + 15);
     });
 }
 
